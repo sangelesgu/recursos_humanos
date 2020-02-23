@@ -1,0 +1,162 @@
+
+<div class="container-fluid">
+  <button type="button" class="btn btn-info float-right add" data-toggle="modal" data-target="#exampleModal">
+    + Añadir empleado
+  </button>
+  <div class="row">
+    <input type="text" class="form-control buscador" placeholder="Buscar Empleado" aria-label="Recipient's username"
+    aria-describedby="basic-addon2" style="width: 18rem;">
+  </div>
+</div>
+
+<br>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Empleado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="añadirEmpleado" #addEmpleado="ngForm" (ngSubmit)="addEmpleado.form.valid && submitData()">
+          <div class="form-group">
+            <label for="exampleInputEmail1"> Nombre Empleado: </label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required
+              name="miEmpleado" #inputEmpleado="ngModel" [(ngModel)]="registroEmpleados['FirstName']" minlength="3">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1"> Apellido :</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required
+              name="miApellido" #inputApellido="ngModel" [(ngModel)]="registroEmpleados['SecondName']" minlength="3">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1"> Departameto :</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required
+              name="miDepartamento" #inputDepartamento="ngModel" [(ngModel)]="registroEmpleados['Departamento']"
+              minlength="3">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1"> Salary: </label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required
+              name="miSalario" #inputSalario="ngModel" [(ngModel)]="registroEmpleados['Salario']" minlength="3">
+
+          </div>
+          <button type="submit" class="btn btn-success" onclick='$(".modal").modal("hide")'>Save</button>
+          <button type="button" class="btn btn-danger">Close</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid text-center">
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Profile</th>
+          <th scope="col">Name</th>
+          <th scope="col">Departament</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Id</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empleado of _data.empleados; let i = index;">
+          <td>
+            <img src="/assets/unnamed.png" style="max-width: 50px;">
+          </td>
+          <td>
+            {{empleado['FirstName']}}
+            {{empleado['SecondName']}}
+          </td>
+          <td>{{empleado['Departamento']}}</td>
+          <td>{{empleado['Salario']}}</td>
+          <td>{{empleado['id']}}</td>
+          <td>
+            <button type="button" class="btn btn-info"><i data-toggle="modal" [attr.data-target]="'#exampleModal1' + i" class="fas fa-search"></i></button>
+
+            <div class="modal fade" id="exampleModal1{{i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Información Empleado: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+
+                    <div class="card text-center" style="width: 18rem;">
+                      <img class="card-img-top" src="/assets/descarga.png" alt="Card image cap">
+                      <div class="card-body">
+                        <ul>
+                          <li>{{empleado['FirstName']}}
+                            {{empleado['SecondName']}}
+                          </li>
+                          <li>{{empleado['Departamento']}}</li>
+                          <li>{{empleado['Salario']}}</li>
+                          <li>{{empleado['id']}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <button type="button" class="btn btn-light"><i data-toggle="modal" [attr.data-target]="'#exampleModal' + i"
+                class="fas fa-pencil-alt"></i></button>
+
+            <div class="modal fade" id="exampleModal{{i}}" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Empleado</h5>
+                    <button type="button" class="close" onclick='$(".modal").modal("hide")' aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form name="editEmpleado" #editEmpleado="ngForm"
+                      (ngSubmit)="editEmpleado.form.valid && editarEmpleado()">
+
+                      <label> Nombre: <input type="text" require name="myEmployee" #inputEmployee="ngModel"
+                          [(ngModel)]="formEmpleado['FirstName']" minlength="3"></label>
+                      <br>
+                      <label> Apellido: <input type="text" required name="mySname" #inputSname="ngModel"
+                          [(ngModel)]="formEmpleado['SecondName']" minlength="3"></label>
+                      <br>
+                      <label> Departamento: <input type="text" required name="myDepart" #inputDepart="ngModel"
+                          [(ngModel)]="formEmpleado['Departamento']" minlength="3"></label>
+                      <br>
+                      <label> Salario: <input type="number" required name="miSalary" #inputSalary="ngModel"
+                          [(ngModel)]="formEmpleado['Salario']" minlength="3"></label>
+                      <br>
+                      <label> Id:<input type="number" required name="myId" #inputId="ngModel"
+                          [(ngModel)]="formEmpleado['id']" minlength="3"></label>
+                      <button type="submit" onclick='$(".modal").modal("hide")'>Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span><i class="far fa-trash-alt btn btn-danger" (click)="_data.borrarEmpleado(i)"></i></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
